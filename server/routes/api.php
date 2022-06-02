@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+
 use App\Http\Middleware\CORS;
 
 /*
@@ -25,14 +25,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::group(['middleware' => 'jwt.auth'], function () {
         Route::group(['namespace' => 'User', 'prefix' => 'users'], function() {
-            Route::get('/', 'IndexController')->middleware(CORS::class);
+            Route::get('/', 'IndexController');
         });
     });
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::group(['namespace' => 'User', 'prefix' => 'users'], function() {
     Route::post('/', 'StoreController')->middleware(CORS::class);

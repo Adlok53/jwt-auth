@@ -5,19 +5,24 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class StoreController extends Controller
 {
     public function __invoke(StoreRequest $request)
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']);
-        $user = User::where('email', $data['email'])->first();
-        if ($user) return response(['message' => 'User exist']);
-        $user = User::create($data);
-        $token = auth()->tokenByid($user->id);
-        return response(['token' => $token]);
+        $validatedData = $request->validated();
+
+        $user = User::where('email', $validatedData['email'])->first();
+        if ($user) return response(['email' => 'User exist']);
+
+        $user = User::create($validatedData);
+        if ($user) {
+            $token = auth()->tokenById($user->id);
+            return response(['token' => $token]);
+        }
+
+        return response()->json([
+            'message' => 'An error occurred when creating a user'
+        ]);
     }
 }
