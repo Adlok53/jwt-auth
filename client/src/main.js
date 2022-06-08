@@ -1,8 +1,7 @@
-import { createApp} from 'vue'
-import App from '@/components/Index'
-import router from '@/router/router'
-//import VueAxios from 'vue-axios'
+import { createApp } from 'vue'
+import Index from '@/Index'
+import router from '@/router'
 
-const app = createApp(App)
-
-app.use(router).mount('#app')
+const app = createApp(Index)
+app.use(router)
+.mount('#app')

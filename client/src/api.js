@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "./router/router";
+import router from "@/router";
 
 const api = axios.create();
 
@@ -26,7 +26,7 @@ api.interceptors.response.use({}, error => {
         })
     }
     if (error.response.status === 401) {
-        router.push({ name: 'user.login'})
+        router.push({ name: 'login'})
     }
 })
 
