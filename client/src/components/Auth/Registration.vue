@@ -4,22 +4,22 @@
             <div class="mb-3">
                 <label class="form-label">Username</label>
                 <input v-model="name" type="text" class="form-control">
-                <div class="form-text error">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Email address</label>
                 <input v-model="email" type="email" class="form-control">
-                <div class="form-text ">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
                 <input v-model="password" type="password" class="form-control">
-                <div class="form-text ">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password confirmation</label>
                 <input v-model="password_confirmation" type="password" class="form-control">
-                <div class="form-text">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <button @click.prevent="registration" type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -37,7 +37,8 @@ export default {
             name: null,
             email: null,
             password: null,
-            password_confirmation: null
+            password_confirmation: null,
+            error: null
         }
     },
 
@@ -52,6 +53,9 @@ export default {
             .then(res => {
                 localStorage.setItem('token', res.data.token)
                 this.$router.push({ name: 'index'})
+            })
+            .catch(res => {
+                this.error = res.message
             })
         }
     }

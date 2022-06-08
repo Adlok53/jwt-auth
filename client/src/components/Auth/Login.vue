@@ -4,12 +4,12 @@
             <div class="mb-3">
                 <label class="form-label">Email address</label>
                 <input v-model="email" type="email" class="form-control">
-                <div class="form-text error">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
                 <input v-model="password" type="password" class="form-control">
-                <div class="form-text">Error</div>
+                <div v-if="error" class="form-text error">Error: Check the data</div>
             </div>
             <button @click.prevent="login" type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -25,7 +25,8 @@ export default {
     data() {
       return {
         email: null,
-        password: null
+        password: null,
+        error: null
       }
     },
     methods: {
@@ -37,6 +38,9 @@ export default {
             .then(res => {
                 localStorage.setItem('token', res.data.authorisation.token)
                 this.$router.push({ name: 'index'})
+            })
+            .catch(res => {
+                this.error = res.message
             })
       }
     }
